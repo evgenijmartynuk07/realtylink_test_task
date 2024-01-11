@@ -70,8 +70,8 @@ class AdvertCollect:
         self.url = "/en/properties~for-rent"
 
         self.headers = {
-            'User-Agent':
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+            "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
         }
 
     @tenacity.retry(
@@ -132,7 +132,7 @@ class AdvertCollect:
                 if len(detail_links) == 60:
                     driver.quit()
                     return detail_links
-            next_button = driver.find_element(By.CSS_SELECTOR, 'li.next a')
+            next_button = driver.find_element(By.CSS_SELECTOR, "li.next a")
             next_button.click()
             page = driver.page_source
 
@@ -174,21 +174,21 @@ class AdvertCollect:
         """
 
         try:
-            title_advert = soup.find('span', {'data-id': 'PageTitle'}).text
+            title_advert = soup.find("span", {"data-id": "PageTitle"}).text
         except AttributeError:
             title_advert = None
-        address = soup.find('h2', itemprop='address').text.strip()
+        address = soup.find("h2", itemprop="address").text.strip()
         region = ",".join(address.split(",")[-2:])[1:]
 
         try:
-            description = soup.find('div', itemprop='description').text.strip()
+            description = soup.find("div", itemprop="description").text.strip()
         except AttributeError:
             description = None
 
-        price = soup.find('div', class_='price').text.strip()[3:].replace(" ", "")
+        price = soup.find("div", class_="price").text.strip()[3:].replace(" ", "")
 
         try:
-            bedrooms = int(soup.find('div', class_='col-lg-3 col-sm-6 cac').text.strip()[0])
+            bedrooms = int(soup.find("div", class_="col-lg-3 col-sm-6 cac").text.strip()[0])
         except AttributeError:
             bedrooms = 0
 
@@ -226,8 +226,8 @@ class AdvertCollect:
 
         url = "https://realtylink.org/Property/PhotoViewerDataListing"
 
-        soup = BeautifulSoup(page, 'html.parser')
-        id_advert = soup.find('span', id='ListingId').text
+        soup = BeautifulSoup(page, "html.parser")
+        id_advert = soup.find("span", id="ListingId").text
 
         data = {
             "lang": "en",
@@ -243,7 +243,7 @@ class AdvertCollect:
 
         all_photo = []
         for photo in photo_list:
-            photo = photo.get('UrlThumb').split("=")
+            photo = photo.get("UrlThumb").split("=")
             width = "640" + photo[-3][-2:]
             height = "480" + photo[-2][-3:]
             photo[-3] = width
@@ -260,7 +260,7 @@ class AdvertCollect:
         Parameters:
         - adverts: A list of Advert objects.
         """
-        async with aio_open('output.json', 'a+') as json_file:
+        async with aio_open("output.json", "a+") as json_file:
             for adv in adverts:
                 await json_file.write(json.dumps(asdict(adv), indent=2))
                 await json_file.write(",\n")
