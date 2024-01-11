@@ -17,7 +17,7 @@ pip install -r requirements.txt
 1. Clone the repository:
 
 ```python
-git clone https://github.com/your_username/advert-collector.git
+git clone https://github.com/evgenijmartynuk07/realtylink_test_task.git
 cd advert-collector
 ```
 
